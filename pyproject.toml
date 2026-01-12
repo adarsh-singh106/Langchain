@@ -12,6 +12,7 @@ dependencies = [
     "langchain-google-vertexai>=3.2.1",
     "langchain-groq>=1.1.1",
     "langchain-openai>=1.1.7",
+    "langchain-tavily>=0.2.16",
     "langgraph>=1.0.5",
     "python-dotenv>=1.2.1",
 ]
