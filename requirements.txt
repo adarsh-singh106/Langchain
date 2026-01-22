@@ -8,4 +8,4 @@ langchain-google-genai
 ipykernel
 langchain-tavily
 rich
-
+psycopg2-binary
