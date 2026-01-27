@@ -4,3 +4,4 @@ langchain-groq
 langchain-google-genai
 pydantic
 python-dotenv
+flask

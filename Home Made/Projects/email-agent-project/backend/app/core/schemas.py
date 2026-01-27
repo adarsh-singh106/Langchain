@@ -4,11 +4,12 @@ from pydantic import BaseModel, Field
 from typing import Union, Literal, Optional
 
 
+
 # 1. EMAIL DRAFT (The Action)
 class EmailDraft(BaseModel):
     """The final structure of the email to be generated."""
     # response_type is CRITICAL. It tells the code "This is an email" automatically.
-    response_type: Literal["email_draft"] = Field(default="email_draft")
+    response_type: Literal["email_draft", "EmailDraft"] = Field(default="email_draft")
     
     subject_line: str = Field(description="A catchy, professional subject line")
     body: str = Field(description="The main content of the email, formatted with newlines")
@@ -25,7 +26,7 @@ class EmailDraft(BaseModel):
 # 2. CLARIFICATION (The Guardrail)
 class ClarificationQuestion(BaseModel):
     """Used when the request is vague."""
-    response_type: Literal["ask_for_info"] = Field(default="ask_for_info")
+    response_type: Literal["ask_for_info", "ClarificationQuestion"] = Field(default="ask_for_info")
     
     missing_info: str = Field(description="What specific info is missing?")
     question_to_user: str = Field(description="Polite question to ask the user.")
@@ -33,7 +34,7 @@ class ClarificationQuestion(BaseModel):
 # 3. GENERAL CHAT (The Fallback)
 class GeneralChat(BaseModel):
     """Standard conversational response."""
-    response_type: Literal["general_chat"] = Field(default="general_chat")
+    response_type: Literal["general_chat", "GeneralChat"] = Field(default="general_chat")
     
     answer: str = Field(description="Conversational reply.")
 
@@ -60,3 +61,19 @@ class GeneralChat(BaseModel):
 #     reciver_email: str = Field(description="The exact email adderess of the reciver email")
 #     email_intent:str = Field(description="What was the intension of writing the email")
 #     extra_helpful_info:str|None = Field(description="The info that might be relevant or worth remmbering")
+
+
+
+
+
+
+
+# Gemini (Google GenAI) integration in LangChain does not yet 
+# support passing a raw Union (like Union[Email, Chat])
+
+class AgentResponse(BaseModel):
+    """
+    Wrapper class to help the LLM pick the right output type.
+    This works around the 'UnionGenericAlias' error in Gemini.
+    """
+    final_output: Union[EmailDraft, ClarificationQuestion, GeneralChat]

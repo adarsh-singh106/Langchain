@@ -8,7 +8,7 @@ from langchain.chat_models import init_chat_model
 # Load Env variables (Safe for Render & Local)
 load_dotenv()
 
-def get_llm(model_name: str = "gemini-3-flash-preview", provider: str = "google_genai"temperature: float = 0):
+def get_llm(model_name: str = "gemini-3-flash-preview", provider: str = "google_genai",temperature: float = 0):
     """
     Factory function to return the requested LLM.
     
@@ -21,8 +21,8 @@ def get_llm(model_name: str = "gemini-3-flash-preview", provider: str = "google_
     """
     
     # 1. Check for keys 
-    if provider == "google_genai" and not os.getenv("GOOGLE_API_KEY"):
-        raise ValueError("CRITICAL: GOOGLE_API_KEY is missing from environment variables.")
+    if provider == "google_genai" and not os.getenv("GEMINI_API_KEY"):
+        raise ValueError("CRITICAL: GEMINI_API_KEY is missing from environment variables.")
     
     if provider == "groq" and not os.getenv("GROQ_API_KEY"):
         raise ValueError("CRITICAL: GROQ_API_KEY is missing from environment variables.")
